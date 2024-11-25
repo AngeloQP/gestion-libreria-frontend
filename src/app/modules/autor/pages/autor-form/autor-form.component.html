@@ -1,0 +1,50 @@
+<div class="container mt-3">
+  <h3>{{ autorId() ? Constants.TITLE_EDIT + ' Autor' : Constants.TITLE_NEW + ' Autor' }}</h3>
+
+  <form [formGroup]="form" (ngSubmit)="saveAutor()">
+
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" type="text" class="form-control" formControlName="nombre"/>
+      @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+        <div class="text-danger">
+          El nombre es obligatorio.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="nacionalidad" class="form-label">Nacionalidad</label>
+      <input id="nacionalidad" type="text" class="form-control" formControlName="nacionalidad"/>
+      @if (form.get('nacionalidad')?.invalid && form.get('nacionalidad')?.touched) {
+        <div class="text-danger">
+          La nacionalidad es obligatoria.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="fecNacimiento" class="form-label">Fecha de Nacimiento</label>
+      <input id="fecNacimiento" type="date" class="form-control" formControlName="fecNacimiento"/>
+      @if (form.get('fecNacimiento')?.invalid && form.get('fecNacimiento')?.touched) {
+        <div class="text-danger">
+          La fecha de nacimiento es obligatoria.
+        </div>
+      }
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-outline-primary"
+              [disabled]="form.invalid">
+        <i class="bi bi-save me-2"></i>
+        {{ autorId() ? Constants.TITLE_UPDATE : Constants.TITLE_SAVE }}
+      </button>
+      <button type="button" class="btn btn-outline-secondary"
+              (click)="router.navigate(['/autor'])">
+        <i class="bi bi-x-circle me-2"></i>
+        {{ Constants.TITLE_CANCEL }}
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,59 @@
+<div class="container mt-3">
+
+  <h3>Listado de Libros</h3>
+
+  <button class="btn btn-outline-success mb-3 mt-2" routerLink="/libro/new">{{ Constants.TITLE_NEW }} Libro</button>
+
+  <table class="table table-striped">
+    <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>ISBN</th>
+      <th>Fecha de Publicación</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (libro of libros(); track libro.id) {
+        <tr>
+          <td>{{ libro.id }}</td>
+          <td>{{ libro.titulo }}</td>
+          <td>{{ libro.nombre }}</td>
+          <td>{{ libro.isbn }}</td>
+          <td>{{ libro.fecPublicacion }}</td>
+          <td>{{ libro.estado }}</td>
+          <td class="d-flex gap-3">
+            <button class="btn btn-sm btn-outline-warning"
+                    (click)="goToEditLibro(libro.id)">{{ Constants.TITLE_EDIT }}
+            </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    (click)="eliminarLibro(libro.id)">{{ Constants.TITLE_DELETE }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Anterior</button>
+      </li>
+      @for (page of [].constructor(totalPages); track i; let i = $index) {
+        <li
+          class="page-item"
+          [class.active]="i === currentPage"
+        >
+          <button class="page-link" (click)="changePage(i)">{{ i + 1 }}</button>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>

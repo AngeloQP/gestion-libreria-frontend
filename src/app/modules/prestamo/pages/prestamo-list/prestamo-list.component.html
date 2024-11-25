@@ -1,0 +1,85 @@
+<div class="container mt-3">
+
+  <h3>Listado de Préstamos</h3>
+
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-outline-success mb-3 mt-2" routerLink="/prestamo/new">{{ Constants.TITLE_NEW }} Préstamo
+    </button>
+
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label>Filtrar por libro</label>
+        <select class="form-select" formControlName="idLibro" (change)="getPrestamosPorLibro()">
+          <option value="" disabled>Selecciona una opción</option>
+          @for (libro of libros(); track libro.id) {
+            <option value="{{libro.id}}">{{ libro.nombre }}</option>
+          }
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <table class="table table-striped mt-4">
+    <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>Libro</th>
+      <th>ISBN</th>
+      <th>Lector</th>
+      <th>Fecha de Préstamo</th>
+      <th>Fecha de Devolución</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (prestamo of prestamos(); track prestamo.id) {
+        <tr>
+          <td>{{ prestamo.id }}</td>
+          <td>{{ prestamo.nomLibro }}</td>
+          <td>{{ prestamo.isbn }}</td>
+          <td>{{ prestamo.lector }}</td>
+          <td>{{ prestamo.fecPrestamo }}</td>
+          <td>{{ prestamo.fecDevolucion || 'Pendiente' }}</td>
+          <td>{{ prestamo.estado }}</td>
+          <td class="d-flex gap-3">
+            <button
+              class="btn btn-sm btn-outline-info"
+              [disabled]="prestamo.estado === 'FINALIZADO'"
+              (click)="concluirPrestamo(prestamo.id)">Finalizar
+            </button>
+            <button class="btn btn-sm btn-outline-warning"
+                    [disabled]="prestamo.estado === 'FINALIZADO'"
+                    (click)="goToEditPrestamo(prestamo.id)">
+              {{ Constants.TITLE_EDIT }}
+            </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    (click)="eliminarPrestamo(prestamo.id)"
+                    [disabled]="prestamo.estado === 'FINALIZADO'">
+              {{ Constants.TITLE_DELETE }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Anterior</button>
+      </li>
+      @for (page of [].constructor(totalPages); track i; let i = $index) {
+        <li
+          class="page-item"
+          [class.active]="i === currentPage"
+        >
+          <button class="page-link" (click)="changePage(i)">{{ i + 1 }}</button>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>

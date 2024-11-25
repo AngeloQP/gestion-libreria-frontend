@@ -1,0 +1,46 @@
+<div class="container mt-3">
+
+  <h3>{{ Constants.TITLE_NEW }} Préstamo</h3>
+
+  <form [formGroup]="form" (ngSubmit)="savePrestamo()">
+
+    <div class="mb-3">
+      <label for="libro" class="form-label">Libro</label>
+      <select id="libro" class="form-select" formControlName="idLibro">
+        <option value="" disabled>Seleccione un libro</option>
+        @for (libro of libros(); track libro.id) {
+          <option [value]="libro.id">
+            {{ libro.titulo }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="lector" class="form-label">Lector</label>
+      <input id="lector" type="text" class="form-control" formControlName="lector"/>
+      @if (form.get('lector')?.invalid && form.get('lector')?.touched) {
+        <div class="text-danger">
+          El lector es obligatorio.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="fecPrestamo" class="form-label">Fecha de Préstamo</label>
+      <input id="fecPrestamo" type="date" class="form-control" formControlName="fecPrestamo"/>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        <i class="bi bi-save me-2"></i>
+        {{ Constants.TITLE_SAVE }}
+      </button>
+      <button type="button" class="btn btn-secondary"
+              (click)="router.navigate(['/prestamo'])">
+        <i class="bi bi-x-circle me-2"></i>
+        {{ Constants.TITLE_CANCEL }}
+      </button>
+    </div>
+  </form>
+</div>

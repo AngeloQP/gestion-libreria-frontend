@@ -1,0 +1,27 @@
+<div class="d-flex flex-row mt-5 p-5">
+
+  <div>
+    <h4>Autores por nacionalidad</h4>
+
+    <ngx-charts-pie-chart
+      [view]="[700, 400]"
+      [results]="dataAutor"
+      [gradient]="false"
+      [legend]="true"
+      [doughnut]="true">
+    </ngx-charts-pie-chart>
+  </div>
+
+  <div>
+    <h4>Libros por año de publicación</h4>
+
+    <ngx-charts-pie-chart
+      [view]="[700, 400]"
+      [results]="dataLibro"
+      [gradient]="false"
+      [legend]="true"
+      [doughnut]="true">
+    </ngx-charts-pie-chart>
+  </div>
+</div>
+

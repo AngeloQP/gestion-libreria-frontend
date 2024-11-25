@@ -1,0 +1,55 @@
+<div class="container mt-3">
+
+  <h3>Listado de Autores</h3>
+
+  <button class="btn btn-outline-success mb-3 mt-2" routerLink="/autor/new">{{ Constants.TITLE_NEW }} Autor</button>
+
+  <table class="table table-striped">
+    <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Nacionalidad</th>
+      <th>Fecha de Nacimiento</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (autor of autores(); track autor.id) {
+        <tr>
+          <td>{{ autor.id }}</td>
+          <td>{{ autor.nombre }}</td>
+          <td>{{ autor.nacionalidad }}</td>
+          <td>{{ autor.fecNacimiento }}</td>
+          <td class="d-flex gap-3">
+            <button class="btn btn-sm btn-outline-warning"
+                    (click)="goToEditAutor(autor.id)">{{ Constants.TITLE_EDIT }}
+            </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    (click)="eliminarAutor(autor.id)">{{ Constants.TITLE_DELETE }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Anterior</button>
+      </li>
+      @for (page of [].constructor(totalPages); track i; let i = $index) {
+        <li
+          class="page-item"
+          [class.active]="i === currentPage"
+        >
+          <button class="page-link" (click)="changePage(i)">{{ i + 1 }}</button>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>

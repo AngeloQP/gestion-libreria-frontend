@@ -1,0 +1,70 @@
+<div class="container mt-3">
+  <h3>{{ libroId() ? Constants.TITLE_EDIT + ' Libro' : Constants.TITLE_NEW + ' Libro' }}</h3>
+
+  <form [formGroup]="form" (ngSubmit)="saveLibro()">
+
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título</label>
+      <input id="titulo" type="text" class="form-control" formControlName="titulo"/>
+      @if (form.get('titulo')?.invalid && form.get('titulo')?.touched) {
+        <div class="text-danger">
+          El título es obligatorio.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="autor" class="form-label">Autor</label>
+      <select id="autor" class="form-select" formControlName="idAutor">
+        <option value="" disabled>Seleccione un autor</option>
+        @for (autor of autores(); track autor.id) {
+          <option [value]="autor.id">
+            {{ autor.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="isbn" class="form-label">ISBN</label>
+      <input id="isbn" type="text" class="form-control" formControlName="isbn"/>
+      @if (form.get('isbn')?.invalid && form.get('isbn')?.touched) {
+        <div class="text-danger">
+          El ISBN es obligatorio.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="fecPublicacion" class="form-label">Fecha de Publicación</label>
+      <input id="fecPublicacion" type="date" class="form-control" formControlName="fecPublicacion"/>
+      @if (form.get('fecPublicacion')?.invalid && form.get('fecPublicacion')?.touched) {
+        <div class="text-danger">
+          La fecha de publicación es obligatoria.
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="estado" class="form-label">Estado</label>
+      <select id="estado" class="form-select" formControlName="estado">
+        <option value="DISPONIBLE">Disponible</option>
+        <option value="NO_DISPONIBLE">No Disponible</option>
+      </select>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-outline-primary"
+              [disabled]="form.invalid">
+        <i class="bi bi-save me-2"></i>
+        {{ libroId() ? Constants.TITLE_UPDATE : Constants.TITLE_SAVE }}
+      </button>
+      <button type="button" class="btn btn-outline-secondary"
+              (click)="router.navigate(['/libro'])">
+        <i class="bi bi-x-circle me-2"></i>
+        {{ Constants.TITLE_CANCEL }}
+      </button>
+    </div>
+
+  </form>
+</div>
